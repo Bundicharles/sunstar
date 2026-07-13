@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Sunstar | An Experience.</title>
-    <meta name="description" content="Premium dining, handcrafted coffee, and unforgettable flavors." />
+    <title>Sunstar Restaurant | Premium Dining Experience</title>
+    <meta name="description" content="Premium dining, handcrafted coffee, and unforgettable flavors at Sunstar Restaurant." />
 
     <!-- Preconnect for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -42,6 +42,14 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+        }
+
+        /* Prevent body scroll when menu is open */
+        body.no-scroll {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
         }
 
         h1,
@@ -160,37 +168,283 @@
         .hero-elem {
             will-change: transform, opacity;
         }
+
+        /* ============================================================
+           NAVIGATION — INDEPENDENT ENTITIES
+           ============================================================ */
+
+        #navbar {
+            transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+        }
+
+        #navbar.scrolled {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Mobile menu */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+            will-change: transform;
+            z-index: 9999;
+        }
+
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .mobile-link {
+            position: relative;
+            padding: 12px 0;
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .mobile-link::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--color-gold);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .mobile-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        #close-menu-btn {
+            min-height: 56px;
+            min-width: 56px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        #close-menu-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: rotate(90deg);
+        }
+
+        #mobile-menu-btn {
+            min-height: 48px;
+            min-width: 48px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        #mobile-menu-btn:hover {
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        /* Desktop nav links - independent entities */
+        .desktop-nav-link {
+            position: relative;
+            padding: 4px 0;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+        }
+
+        .desktop-nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--color-gold);
+            transition: width 0.3s ease;
+        }
+
+        .desktop-nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Entity badge — subtle distinction */
+        .entity-badge {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 2px 8px;
+            border-radius: 20px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            color: var(--color-gold);
+            margin-left: 4px;
+            font-weight: 400;
+        }
+
+        /* Reserve button */
+        .reserve-btn {
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .reserve-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Safe area support */
+        @supports (padding: max(0px)) {
+            #navbar .relative {
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+
+            #mobile-menu {
+                padding-top: max(2rem, env(safe-area-inset-top));
+                padding-bottom: max(2rem, env(safe-area-inset-bottom));
+            }
+        }
+
+        /* Mobile link stagger */
+        .mobile-link {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease;
+        }
+
+        #mobile-menu.open .mobile-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #mobile-menu.open .mobile-link:nth-child(1) {
+            transition-delay: 0.05s;
+        }
+        #mobile-menu.open .mobile-link:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+        #mobile-menu.open .mobile-link:nth-child(3) {
+            transition-delay: 0.15s;
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--color-gold);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* Entity divider in footer */
+        .entity-divider {
+            width: 30px;
+            height: 2px;
+            background: var(--color-gold);
+            opacity: 0.3;
+            margin: 8px 0;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-[#d4af37] selection:text-black">
 
-    <!-- ====== NAVIGATION ====== -->
-    <nav class="fixed top-0 w-full z-50 transition-all duration-300" id="navbar">
-        <div class="absolute inset-0 glass-panel bg-[#0a0a0a]/80 border-b-0"></div>
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-3 md:py-4 flex justify-between items-center">
-            <a href="#" class="font-serif text-xl sm:text-2xl tracking-widest uppercase text-[#d4af37] font-medium">Sunstar</a>
+    <!-- ====== NAVIGATION — INDEPENDENT ENTITIES ====== -->
+    <nav class="fixed top-0 left-0 w-full z-[9999] transition-all duration-300" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 md:py-4 flex justify-between items-center">
+            <!-- Logo — clearly Restaurant -->
+            <a href="#" class="flex items-center gap-2 hover:opacity-80 transition-opacity" aria-label="Sunstar Restaurant Home">
+                <span class="font-serif text-xl sm:text-2xl tracking-widest uppercase text-[#d4af37] font-medium">Sunstar</span>
+                <span class="hidden sm:inline-block text-[10px] tracking-[0.2em] uppercase text-gray-400 font-light border-l border-white/10 pl-3">
+                    Restaurant
+                </span>
+            </a>
 
-            <!-- Desktop nav -->
-            <ul class="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-light text-gray-300 tracking-wide">
-                <li><a href="https://www.sunstarresort.co.ke/" class="hover:text-[#d4af37] transition-colors">Resort</a></li>
-                <li><a href="https://sunstarhotelnairobi.com/" class="hover:text-[#d4af37] transition-colors">Hotel</a></li>
-                <li><a href="#reservation" class="px-5 py-2 border border-[#d4af37] rounded-full text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-all">Reserve</a></li>
+            <!-- Desktop Nav — Independent Entities -->
+            <ul class="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-light text-gray-300 tracking-wide" role="menubar">
+                <li role="none">
+                    <a href="https://www.sunstarresort.co.ke/" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="desktop-nav-link hover:text-[#d4af37] transition-colors flex items-center gap-1" 
+                       role="menuitem">
+                        Resort
+                        <span class="entity-badge">Stay</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="https://sunstarhotelnairobi.com/" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="desktop-nav-link hover:text-[#d4af37] transition-colors flex items-center gap-1" 
+                       role="menuitem">
+                        Hotel
+                        <span class="entity-badge">Stay</span>
+                    </a>
+                </li>
+                <li role="none" class="pl-2 border-l border-white/10">
+                    <a href="#reservation" class="reserve-btn px-5 py-2 border border-[#d4af37] rounded-full text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-all" role="menuitem">
+                        Reserve Table
+                    </a>
+                </li>
             </ul>
 
-            <!-- Mobile toggle -->
-            <button class="lg:hidden text-2xl text-[#d4af37]" id="mobile-menu-btn" aria-label="Toggle Menu">
-                <iconify-icon icon="solar:hamburger-menu-linear" stroke-width="1.5"></iconify-icon>
+            <!-- Mobile Menu Toggle -->
+            <button
+                id="mobile-menu-btn"
+                class="lg:hidden text-2xl text-[#d4af37] hover:text-white transition-colors"
+                aria-label="Toggle navigation menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+                type="button"
+            >
+                <iconify-icon icon="solar:hamburger-menu-linear" stroke-width="1.5" id="menu-icon"></iconify-icon>
             </button>
         </div>
 
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="fixed inset-0 bg-[#0a0a0a]/95 backdrop-blur-xl z-40 translate-x-full transition-transform duration-300 flex flex-col justify-center items-center gap-6 sm:gap-8 font-serif text-2xl sm:text-3xl tracking-tight">
-            <button id="close-menu-btn" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-3xl text-gray-400 hover:text-[#d4af37]" aria-label="Close Menu">
+        <!-- Mobile Menu Overlay -->
+        <div
+            id="mobile-menu"
+            class="fixed inset-0 bg-[#0a0a0a]/98 backdrop-blur-xl translate-x-full transition-transform duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] flex flex-col justify-center items-center gap-6 sm:gap-8 font-serif tracking-tight px-6"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            hidden
+        >
+            <button
+                id="close-menu-btn"
+                class="absolute top-4 right-4 sm:top-6 sm:right-6 text-3xl text-gray-400 hover:text-[#d4af37] transition-all"
+                aria-label="Close navigation menu"
+                type="button"
+            >
                 <iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon>
             </button>
-            <a href="https://www.sunstarresort.co.ke/" class="mobile-link text-gray-200 hover:text-[#d4af37] transition">Resort</a>
-            <a href="https://sunstarhotelnairobi.com/" class="mobile-link text-gray-200 hover:text-[#d4af37] transition">Hotel</a>
-            <a href="#reservation" class="mobile-link text-[#d4af37] border border-[#d4af37] px-8 py-3 rounded-full hover:bg-[#d4af37] hover:text-black transition">Reserve Table</a>
+
+            <nav aria-label="Mobile navigation" class="flex flex-col items-center gap-6 sm:gap-8 w-full max-w-xs">
+                <a href="https://www.sunstarresort.co.ke/" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="mobile-link text-gray-200 hover:text-[#d4af37] transition text-2xl sm:text-3xl flex items-center gap-2" 
+                   tabindex="-1">
+                    Resort
+                    <span class="text-[10px] text-[#d4af37] font-sans tracking-widest border border-[#d4af37]/30 px-3 py-1 rounded-full">Stay</span>
+                </a>
+                <a href="https://sunstarhotelnairobi.com/" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="mobile-link text-gray-200 hover:text-[#d4af37] transition text-2xl sm:text-3xl flex items-center gap-2" 
+                   tabindex="-1">
+                    Hotel
+                    <span class="text-[10px] text-[#d4af37] font-sans tracking-widest border border-[#d4af37]/30 px-3 py-1 rounded-full">Stay</span>
+                </a>
+                <div class="w-12 h-px bg-white/10 my-2"></div>
+                <a href="#reservation" class="mobile-link text-[#d4af37] border border-[#d4af37] px-8 py-3 rounded-full hover:bg-[#d4af37] hover:text-black transition text-xl sm:text-2xl mt-2" tabindex="-1">
+                    Reserve Table
+                </a>
+            </nav>
         </div>
     </nav>
 
@@ -200,7 +454,7 @@
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/50 to-[#0a0a0a]"></div>
 
         <div class="relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mt-8 sm:mt-12 md:mt-16">
-            <span class="text-[#d4af37] text-xs sm:text-sm tracking-widest uppercase mb-4 sm:mb-6 opacity-0 translate-y-4 hero-elem font-light">Welcome to Sunstar</span>
+            <span class="text-[#d4af37] text-xs sm:text-sm tracking-widest uppercase mb-4 sm:mb-6 opacity-0 translate-y-4 hero-elem font-light">Welcome to Sunstar Restaurant</span>
             <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white mb-4 sm:mb-6 opacity-0 translate-y-8 hero-elem font-medium leading-[1.1]">
                 More Than A Meal <br />
                 <span class="text-gradient italic font-light">— An Experience.</span>
@@ -214,7 +468,6 @@
             </div>
         </div>
 
-        <!-- Scroll indicator -->
         <div class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-2 opacity-50 animate-bounce">
             <span class="text-[8px] sm:text-[10px] tracking-widest uppercase text-gray-400">Scroll to explore</span>
             <iconify-icon icon="solar:arrow-down-linear" class="text-gray-400 text-lg sm:text-xl"></iconify-icon>
@@ -231,7 +484,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 xl:gap-24">
-            <!-- Signature Plates -->
             <div class="gs-reveal glass-panel p-6 sm:p-8 md:p-10 rounded-3xl ambient-glow relative overflow-hidden group">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-[#d4af37]/10 rounded-bl-full blur-2xl group-hover:bg-[#d4af37]/20 transition-all duration-700"></div>
                 <h3 class="font-serif text-xl sm:text-2xl text-white mb-6 sm:mb-8 flex items-center gap-3 font-medium tracking-tight">
@@ -257,7 +509,6 @@
                 </ul>
             </div>
 
-            <!-- Classics -->
             <div class="gs-reveal glass-panel p-6 sm:p-8 md:p-10 rounded-3xl ambient-glow relative overflow-hidden group" style="transition-delay:100ms">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-[#cc5500]/10 rounded-bl-full blur-2xl group-hover:bg-[#cc5500]/20 transition-all duration-700"></div>
                 <h3 class="font-serif text-xl sm:text-2xl text-white mb-6 sm:mb-8 flex items-center gap-3 font-medium tracking-tight">
@@ -294,7 +545,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-                <!-- Coffee -->
                 <div class="gs-reveal">
                     <div class="flex justify-end text-[10px] text-gray-500 tracking-widest uppercase mb-4 gap-4 sm:gap-8 pr-2">
                         <span>Single</span><span>Double</span>
@@ -309,7 +559,6 @@
                     </ul>
                 </div>
 
-                <!-- Hot Beverages -->
                 <div class="gs-reveal border-t lg:border-t-0 lg:border-l border-white/5 pt-8 lg:pt-0 lg:pl-12 xl:pl-16">
                     <ul class="space-y-3 sm:space-y-4">
                         <li class="flex justify-between items-end group menu-item-hover gap-2"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">A Glass of Milk</span><span class="flex-grow border-b border-white/5 mx-2 sm:mx-4 mb-1 price-dots transition"></span><span class="text-xs text-[#c68e17] whitespace-nowrap">KES 200</span></li>
@@ -330,7 +579,6 @@
     <section class="py-16 sm:py-20 lg:py-32 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-24 relative">
         <div class="absolute top-1/2 left-0 w-96 h-96 bg-[#228b22]/5 rounded-full blur-[150px] pointer-events-none"></div>
 
-        <!-- Milkshakes -->
         <div class="gs-reveal relative">
             <h2 class="font-serif text-2xl sm:text-3xl md:text-4xl tracking-tight font-medium mb-6 sm:mb-10 text-white">Cold Refreshments</h2>
             <div class="glass-panel p-6 sm:p-8 rounded-3xl">
@@ -346,7 +594,6 @@
             </div>
         </div>
 
-        <!-- Starters -->
         <div id="starters" class="gs-reveal relative">
             <h2 class="font-serif text-2xl sm:text-3xl md:text-4xl tracking-tight font-medium mb-6 sm:mb-10 text-white text-left lg:text-right">Starters &amp; Soups</h2>
             <div class="glass-panel p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white/5 to-transparent">
@@ -373,7 +620,6 @@
         </div>
 
         <div class="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory horizontal-scroll-container px-4 sm:px-6 lg:px-12 pb-8 sm:pb-12 w-full gs-reveal">
-            <!-- Burger Card -->
             <div class="snap-center shrink-0 w-[85vw] sm:w-[70vw] md:w-[400px] glass-panel rounded-3xl overflow-hidden group">
                 <div class="h-40 sm:h-48 bg-gray-900 overflow-hidden relative">
                     <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800')] bg-cover bg-center group-hover:scale-110 transition-transform duration-700"></div>
@@ -388,7 +634,6 @@
                 </div>
             </div>
 
-            <!-- Burger list -->
             <div class="snap-center shrink-0 w-[85vw] sm:w-[70vw] md:w-[400px] glass-panel rounded-3xl p-6 sm:p-8 flex flex-col justify-center">
                 <ul class="space-y-4 sm:space-y-6 w-full">
                     <li class="flex flex-wrap justify-between items-center gap-2"><span class="text-sm sm:text-base text-gray-200">Ham &amp; Cheese Burger</span><span class="text-sm text-[#d4af37] whitespace-nowrap">KES 500</span></li>
@@ -397,7 +642,6 @@
                 </ul>
             </div>
 
-            <!-- Sandwiches -->
             <div class="snap-center shrink-0 w-[85vw] sm:w-[70vw] md:w-[400px] glass-panel rounded-3xl p-6 sm:p-8 flex flex-col justify-center bg-gradient-to-br from-[#d4af37]/5 to-transparent">
                 <h3 class="font-serif text-lg sm:text-xl text-white mb-4 sm:mb-6 border-b border-white/10 pb-3 sm:pb-4">Sandwiches</h3>
                 <ul class="space-y-3 sm:space-y-4 w-full">
@@ -419,7 +663,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-            <!-- Salads + Pasta -->
             <div class="col-span-1 md:col-span-2 space-y-10 sm:space-y-12 gs-reveal">
                 <div>
                     <h3 class="text-lg sm:text-xl font-serif text-[#d4af37] mb-4 sm:mb-6 flex items-center gap-4">
@@ -446,7 +689,6 @@
                 </div>
             </div>
 
-            <!-- Sides & Desserts -->
             <div class="col-span-1 glass-panel p-6 sm:p-8 rounded-3xl relative overflow-hidden gs-reveal">
                 <div class="absolute inset-0 bg-[#0a0a0a]/50"></div>
                 <div class="relative z-10">
@@ -557,68 +799,79 @@
         </div>
     </section>
 
-    <!-- ====== FOOTER ====== -->
+    <!-- ====== FOOTER — INDEPENDENT ENTITIES ====== -->
     <footer class="bg-[#050505] pt-12 sm:pt-16 lg:pt-20 pb-8 sm:pb-10 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16">
-            <div class="col-span-1 sm:col-span-2 lg:col-span-1">
-                <span class="font-serif text-xl sm:text-2xl tracking-widest uppercase text-[#d4af37] font-medium block mb-3 sm:mb-4">Sunstar</span>
-                <p class="text-xs text-gray-500 font-light max-w-xs leading-relaxed mb-4 sm:mb-6">Premium dining, handcrafted coffee, and unforgettable flavors orchestrated in a cinematic atmosphere.</p>
-                <div class="flex gap-4 text-xl text-gray-400">
-                    <a href="#" class="hover:text-[#d4af37] transition" aria-label="Map"><iconify-icon icon="solar:map-point-linear"></iconify-icon></a>
-                    <a href="#" class="hover:text-[#d4af37] transition" aria-label="Camera"><iconify-icon icon="solar:camera-linear"></iconify-icon></a>
-                    <a href="#" class="hover:text-[#d4af37] transition" aria-label="Email"><iconify-icon icon="solar:letter-linear"></iconify-icon></a>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <!-- Entity distinction in footer -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16">
+                <div class="col-span-1 sm:col-span-2 lg:col-span-1">
+                    <span class="font-serif text-xl sm:text-2xl tracking-widest uppercase text-[#d4af37] font-medium block mb-3 sm:mb-4">Sunstar</span>
+                    <p class="text-xs text-gray-500 font-light max-w-xs leading-relaxed mb-4 sm:mb-6">Premium dining, handcrafted coffee, and unforgettable flavors orchestrated in a cinematic atmosphere.</p>
+                    <div class="flex gap-4 text-xl text-gray-400">
+                        <a href="#" class="hover:text-[#d4af37] transition" aria-label="Map"><iconify-icon icon="solar:map-point-linear"></iconify-icon></a>
+                        <a href="#" class="hover:text-[#d4af37] transition" aria-label="Camera"><iconify-icon icon="solar:camera-linear"></iconify-icon></a>
+                        <a href="#" class="hover:text-[#d4af37] transition" aria-label="Email"><iconify-icon icon="solar:letter-linear"></iconify-icon></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-serif text-base sm:text-lg mb-4 sm:mb-6">Restaurant</h4>
+                    <ul class="text-xs text-gray-400 font-light space-y-2 sm:space-y-3">
+                        <li class="flex items-center gap-2"><iconify-icon icon="solar:phone-linear" class="text-[#d4af37]"></iconify-icon> +254 795 853 804</li>
+                        <li class="flex items-center gap-2"><iconify-icon icon="solar:letter-linear" class="text-[#d4af37]"></iconify-icon> dining@sunstar.com</li>
+                        <li class="flex items-center gap-2"><iconify-icon icon="solar:map-point-linear" class="text-[#d4af37]"></iconify-icon> Nairobi, Kenya</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-serif text-base sm:text-lg mb-4 sm:mb-6">Hours</h4>
+                    <ul class="text-xs text-gray-400 font-light space-y-2 sm:space-y-3">
+                        <li class="flex flex-wrap justify-between border-b border-white/5 pb-1 gap-1"><span>Mon - Fri</span><span>7:00 AM - 10:00 PM</span></li>
+                        <li class="flex flex-wrap justify-between border-b border-white/5 pb-1 gap-1"><span>Saturday</span><span>8:00 AM - 11:00 PM</span></li>
+                        <li class="flex flex-wrap justify-between border-b border-white/5 pb-1 gap-1"><span>Sunday</span><span>8:00 AM - 9:00 PM</span></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-1 sm:col-span-2 lg:col-span-1">
+                    <h4 class="text-white font-serif text-base sm:text-lg mb-4 sm:mb-6">Find us</h4>
+                    <div class="w-full aspect-[4/3] sm:aspect-video rounded-2xl overflow-hidden bg-gray-800">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7927.533686829976!2d36.817245!3d-1.292066!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f47640ec0ebf3%3A0xd949f9e99907a9!2sSunstar!5e0!3m2!1sen!2ske!4v1720000000000!5m2!1sen!2ske"
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Sunstar location map"
+                        ></iframe>
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <h4 class="text-white font-serif text-base sm:text-lg mb-4 sm:mb-6">Contact</h4>
-                <ul class="text-xs text-gray-400 font-light space-y-2 sm:space-y-3">
-                    <li class="flex items-center gap-2"><iconify-icon icon="solar:phone-linear" class="text-[#d4af37]"></iconify-icon> +254 795 853 804</li>
-                    <li class="flex items-center gap-2"><iconify-icon icon="solar:letter-linear" class="text-[#d4af37]"></iconify-icon> info@sunstar.com</li>
-                    <li class="flex items-center gap-2"><iconify-icon icon="solar:map-point-linear" class="text-[#d4af37]"></iconify-icon> Nairobi, Kenya</li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white font-serif text-base sm:text-lg mb-4 sm:mb-6">Hours</h4>
-                <ul class="text-xs text-gray-400 font-light space-y-2 sm:space-y-3">
-                    <li class="flex flex-wrap justify-between border-b border-white/5 pb-1 gap-1"><span>Mon - Fri</span><span>7:00 AM - 10:00 PM</span></li>
-                    <li class="flex flex-wrap justify-between border-b border-white/5 pb-1 gap-1"><span>Saturday</span><span>8:00 AM - 11:00 PM</span></li>
-                    <li class="flex flex-wrap justify-between border-b border-white/5 pb-1 gap-1"><span>Sunday</span><span>8:00 AM - 9:00 PM</span></li>
-                </ul>
-            </div>
-
-            <div class="col-span-1 sm:col-span-2 lg:col-span-1">
-                <h4 class="text-white font-serif text-base sm:text-lg mb-4 sm:mb-6">Find us</h4>
-                <div class="w-full aspect-[4/3] sm:aspect-video rounded-2xl overflow-hidden bg-gray-800">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7927.533686829976!2d36.817245!3d-1.292066!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f47640ec0ebf3%3A0xd949f9e99907a9!2sSunstar!5e0!3m2!1sen!2ske!4v1720000000000!5m2!1sen!2ske"
-                        width="100%"
-                        height="100%"
-                        style="border:0;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        title="Sunstar location map"
-                    ></iframe>
+            <!-- Independent entity disclaimer -->
+            <div class="flex flex-col sm:flex-row justify-between items-center border-t border-white/5 pt-6 sm:pt-8 gap-4">
+                <p class="text-[10px] text-gray-600 uppercase tracking-widest">© 2023 Sunstar Restaurant. All Rights Reserved.</p>
+                <div class="flex items-center gap-3 text-[10px] text-gray-500">
+                    <span>Restaurant</span>
+                    <span class="w-px h-4 bg-white/10"></span>
+                    <a href="https://www.sunstarresort.co.ke/" target="_blank" rel="noopener noreferrer" class="hover:text-[#d4af37] transition">Resort</a>
+                    <span class="w-px h-4 bg-white/10"></span>
+                    <a href="https://sunstarhotelnairobi.com/" target="_blank" rel="noopener noreferrer" class="hover:text-[#d4af37] transition">Hotel</a>
                 </div>
             </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 text-center border-t border-white/5 pt-6 sm:pt-8">
-            <p class="text-[10px] text-gray-600 uppercase tracking-widest">© 2023 Sunstar Restaurant. All Rights Reserved.</p>
         </div>
     </footer>
 
     <!-- ====== SCRIPTS ====== -->
     <script>
         // ============================================================
-        // 1. GSAP + SCROLLTRIGGER (lightweight)
+        // 1. GSAP + SCROLLTRIGGER
         // ============================================================
         gsap.registerPlugin(ScrollTrigger);
 
         // ============================================================
-        // 2. HERO ANIMATIONS (only once, no scroll dependency)
+        // 2. HERO ANIMATIONS
         // ============================================================
         const tl = gsap.timeline();
         tl.to(".hero-elem", {
@@ -631,7 +884,7 @@
         });
 
         // ============================================================
-        // 3. PARALLAX HERO — OPTIMIZED & SMOOTH
+        // 3. PARALLAX HERO
         // ============================================================
         gsap.to("#hero-bg", {
             yPercent: 15,
@@ -645,7 +898,7 @@
         });
 
         // ============================================================
-        // 4. SECTION REVEALS — INTERSECTION OBSERVER (PERFORMANT)
+        // 4. SECTION REVEALS (IntersectionObserver)
         // ============================================================
         const revealElements = document.querySelectorAll('.gs-reveal');
 
@@ -669,10 +922,8 @@
                     });
                 }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
             );
-
             revealElements.forEach((el) => observer.observe(el));
         } else {
-            // Fallback for older browsers
             revealElements.forEach((el) => {
                 gsap.fromTo(
                     el, { y: 30, opacity: 0 }, {
@@ -691,7 +942,7 @@
         }
 
         // ============================================================
-        // 5. NAVBAR BLUR — THROTTLED FOR PERFORMANCE
+        // 5. NAVBAR SCROLL EFFECT
         // ============================================================
         const navbar = document.getElementById("navbar");
         let ticking = false;
@@ -700,19 +951,9 @@
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     if (window.scrollY > 50) {
-                        navbar.classList.add(
-                            "bg-[#0a0a0a]/80",
-                            "backdrop-blur-xl",
-                            "border-b",
-                            "border-white/10"
-                        );
+                        navbar.classList.add("scrolled");
                     } else {
-                        navbar.classList.remove(
-                            "bg-[#0a0a0a]/80",
-                            "backdrop-blur-xl",
-                            "border-b",
-                            "border-white/10"
-                        );
+                        navbar.classList.remove("scrolled");
                     }
                     ticking = false;
                 });
@@ -727,15 +968,77 @@
         const closeMenuBtn = document.getElementById("close-menu-btn");
         const mobileMenu = document.getElementById("mobile-menu");
         const mobileLinks = document.querySelectorAll(".mobile-link");
+        const menuIcon = document.getElementById("menu-icon");
+
+        let isMenuOpen = false;
+
+        function openMenu() {
+            mobileMenu.removeAttribute("hidden");
+            void mobileMenu.offsetWidth;
+            mobileMenu.classList.add("open");
+            mobileMenuBtn.setAttribute("aria-expanded", "true");
+            document.body.classList.add("no-scroll");
+            isMenuOpen = true;
+            menuIcon.setAttribute("icon", "solar:close-circle-linear");
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.remove("open");
+            mobileMenuBtn.setAttribute("aria-expanded", "false");
+            document.body.classList.remove("no-scroll");
+            isMenuOpen = false;
+            menuIcon.setAttribute("icon", "solar:hamburger-menu-linear");
+            setTimeout(() => {
+                if (!isMenuOpen) {
+                    mobileMenu.setAttribute("hidden", "");
+                }
+            }, 400);
+        }
 
         function toggleMenu() {
-            mobileMenu.classList.toggle("translate-x-full");
-            document.body.classList.toggle("overflow-hidden");
+            if (isMenuOpen) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
         }
 
         mobileMenuBtn.addEventListener("click", toggleMenu);
-        closeMenuBtn.addEventListener("click", toggleMenu);
-        mobileLinks.forEach((link) => link.addEventListener("click", toggleMenu));
+        closeMenuBtn.addEventListener("click", closeMenu);
+
+        mobileLinks.forEach((link) => {
+            link.addEventListener("click", closeMenu);
+        });
+
+        mobileMenu.addEventListener("click", (e) => {
+            if (e.target === mobileMenu) {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && isMenuOpen) {
+                closeMenu();
+            }
+        });
+
+        mobileMenu.addEventListener("keydown", (e) => {
+            if (e.key === "Tab") {
+                const focusable = mobileMenu.querySelectorAll(
+                    'a[href], button:not([disabled]), [tabindex="0"]'
+                );
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        });
 
         // ============================================================
         // 7. WHATSAPP FORM
