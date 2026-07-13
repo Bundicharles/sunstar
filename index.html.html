@@ -1,0 +1,691 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunstar | An Experience.</title>
+    <meta name="description" content="Premium dining, handcrafted coffee, and unforgettable flavors.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Playfair+Display:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --color-black: #0a0a0a;
+            --color-espresso: #2a1b12;
+            --color-gold: #d4af37;
+            --color-cream: #fdfbf7;
+        }
+body {
+            background-color: var(--color-black);
+            color: var(--color-cream);
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(to right, #fdfbf7, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ambient-glow {
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.05);
+        }
+
+        /* Form Custom Styles */
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], select, textarea {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            color: var(--color-cream);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-bottom-color: var(--color-gold);
+        }
+        select option {
+            background: var(--color-black);
+            color: var(--color-cream);
+        }
+
+        .menu-item-hover:hover .price-dots {
+            border-bottom-color: var(--color-gold);
+            opacity: 0.5;
+        }
+
+        .horizontal-scroll-container {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#d4af37] selection:text-black">
+
+    <!-- 2. STICKY PARALLEL NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500" id="navbar">
+        <div class="absolute inset-0 glass-panel bg-[#0a0a0a]/80 border-b-0"></div>
+        <div class="relative max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-serif text-xl tracking-widest uppercase text-[#d4af37] font-medium">Sunstar</a>
+            
+            <!-- Desktop Nav -->
+            <ul class="hidden lg:flex items-center gap-8 text-xs font-light text-gray-300 tracking-wide">
+                <li><a href="https://www.sunstarresort.co.ke/" class="hover:text-[#d4af37] transition-colors">Resort</a></li>
+                <li><a href="https://sunstarhotelnairobi.com/" class="hover:text-[#d4af37] transition-colors">Hotel</a></li>
+                <li><a href="#reservation" class="px-5 py-2 border border-[#d4af37] rounded-full text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-all">Reserve</a></li>
+            </ul>
+
+            <!-- Mobile Toggle -->
+            <button class="lg:hidden text-2xl text-[#d4af37]" id="mobile-menu-btn" aria-label="Toggle Menu">
+                <iconify-icon icon="solar:hamburger-menu-linear" stroke-width="1.5"></iconify-icon>
+            </button>
+        </div>
+
+<!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-[#0a0a0a]/95 backdrop-blur-xl z-40 translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8 font-serif text-2xl tracking-tight">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-[#d4af37]"><iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon></button>
+            <a href="https://www.sunstarresort.co.ke/" class="mobile-link text-gray-200 hover:text-[#d4af37]">Resort</a>
+            <a href="https://sunstarhotelnairobi.com/" class="mobile-link text-gray-200 hover:text-[#d4af37]">Hotel</a>
+            <a href="#reservation" class="mobile-link text-[#d4af37]">Reserve Table</a>
+        </div>
+    </nav>
+
+    <!-- 1. HERO SECTION -->
+    <section id="hero" class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&amp;w=2500')] bg-cover bg-center opacity-30 scale-110" id="hero-bg"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/50 to-[#0a0a0a]"></div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mt-16">
+            <span class="text-[#d4af37] text-sm tracking-widest uppercase mb-6 opacity-0 translate-y-4 hero-elem font-light">Welcome to Sunstar</span>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl tracking-tight text-white mb-6 opacity-0 translate-y-8 hero-elem font-medium leading-[1.1]">
+                More Than A Meal <br> <span class="text-gradient italic font-light">— An Experience.</span>
+            </h1>
+            <p class="text-base md:text-lg text-gray-400 max-w-xl mb-12 opacity-0 translate-y-8 hero-elem font-light">
+                Premium dining, handcrafted coffee, and unforgettable flavors orchestrated in a cinematic atmosphere.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 opacity-0 translate-y-8 hero-elem w-full sm:w-auto">
+                <a href="#breakfast" class="px-8 py-4 rounded-full bg-[#d4af37] text-black text-sm uppercase tracking-wide hover:bg-white transition-colors duration-500 text-center">View Menu</a>
+                <a href="#reservation" class="px-8 py-4 rounded-full border border-white/20 text-white text-sm uppercase tracking-wide hover:border-[#d4af37] hover:text-[#d4af37] transition-all duration-500 glass-panel text-center">Reserve Table</a>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+            <span class="text-[10px] tracking-widest uppercase text-gray-400">Scroll to explore</span>
+            <iconify-icon icon="solar:arrow-down-linear" class="text-gray-400"></iconify-icon>
+        </div>
+    </section>
+
+    <!-- 3. BREAKFAST SECTION -->
+    <section id="breakfast" class="relative py-32 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#cc5500]/5 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="text-center mb-20 gs-reveal">
+            <span class="text-[#d4af37] text-xs tracking-widest uppercase mb-2 block">Morning</span>
+            <h2 class="font-serif text-4xl md:text-5xl tracking-tight font-medium">Sunrise Selections</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
+            <div class="gs-reveal glass-panel p-8 md:p-10 rounded-3xl ambient-glow relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-[#d4af37]/10 rounded-bl-full blur-2xl group-hover:bg-[#d4af37]/20 transition-all duration-700"></div>
+                <h3 class="font-serif text-2xl text-white mb-8 flex items-center gap-3 font-medium tracking-tight">
+                    <iconify-icon icon="solar:sun-linear" class="text-[#d4af37]"></iconify-icon> Signature Plates
+                </h3>
+                <ul class="space-y-6">
+                    <li class="flex justify-between items-end group menu-item-hover">
+                        <span class="text-base text-gray-300 font-light group-hover:text-white transition">Morning Dew</span>
+                        <div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div>
+                        <span class="text-sm text-[#d4af37]">KES 600</span>
+                    </li>
+                    <li class="flex justify-between items-end group menu-item-hover">
+                        <span class="text-base text-gray-300 font-light group-hover:text-white transition">Ruiru Special</span>
+                        <div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div>
+                        <span class="text-sm text-[#d4af37]">KES 650</span>
+                    </li>
+                    <li class="flex justify-between items-end group menu-item-hover">
+                        <span class="text-base text-gray-300 font-light group-hover:text-white transition">Cock-a-Leekie Soup</span>
+                        <div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div>
+                        <span class="text-sm text-[#d4af37]">KES 350</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="gs-reveal glass-panel p-8 md:p-10 rounded-3xl ambient-glow relative overflow-hidden group" style="transition-delay: 100ms;">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-[#cc5500]/10 rounded-bl-full blur-2xl group-hover:bg-[#cc5500]/20 transition-all duration-700"></div>
+                <h3 class="font-serif text-2xl text-white mb-8 flex items-center gap-3 font-medium tracking-tight">
+                    <iconify-icon icon="solar:cup-hot-linear" class="text-[#d4af37]"></iconify-icon> Classics
+                </h3>
+                <ul class="space-y-5">
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Scrambled Eggs</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 200</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Spanish Omelette</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 250</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Fried Egg/Plain Omelette</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 150</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Pancakes</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 200</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">French Toast</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 200</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Boiled Eggs</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 100</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Sausage</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 200</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Bacon</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 350</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Mandazi</span><div class="flex-grow border-b border-white/10 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 100</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. COFFEE & HOT BEVERAGES SECTION -->
+    <section id="coffee" class="relative py-32 bg-[#140e0a]">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&amp;w=2500')] bg-cover bg-fixed bg-center opacity-10 mix-blend-luminosity"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-6 md:px-12 z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gs-reveal border-b border-white/10 pb-8">
+                <div>
+                    <span class="text-[#c68e17] text-xs tracking-widest uppercase mb-2 block">Handcrafted</span>
+                    <h2 class="font-serif text-4xl md:text-5xl tracking-tight text-white font-medium">Coffee &amp; Hot Beverages</h2>
+                </div>
+                <p class="text-sm text-gray-400 max-w-xs mt-4 md:mt-0 font-light text-right">Roasted to perfection, brewed with precision. Experience our amber glow atmosphere.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Coffee -->
+                <div class="gs-reveal">
+                    <div class="flex justify-end text-[10px] text-gray-500 tracking-widest uppercase mb-4 gap-8 pr-2">
+                        <span>Single</span>
+                        <span>Double</span>
+                    </div>
+                    <ul class="space-y-6">
+                        <li class="flex items-center justify-between group">
+                            <span class="text-lg font-serif text-gray-200 group-hover:text-[#c68e17] transition-colors">Espresso</span>
+                            <div class="flex gap-8 text-sm text-gray-400 font-light">
+                                <span class="w-8 text-right group-hover:text-white transition-colors">170</span>
+                                <span class="w-8 text-right group-hover:text-white transition-colors">250</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center justify-between group">
+                            <span class="text-lg font-serif text-gray-200 group-hover:text-[#c68e17] transition-colors">Americano</span>
+                            <div class="flex gap-8 text-sm text-gray-400 font-light">
+                                <span class="w-8 text-right group-hover:text-white transition-colors">170</span>
+                                <span class="w-8 text-right group-hover:text-white transition-colors">250</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center justify-between group">
+                            <span class="text-lg font-serif text-gray-200 group-hover:text-[#c68e17] transition-colors">Macchiato</span>
+                            <div class="flex gap-8 text-sm text-gray-400 font-light">
+                                <span class="w-8 text-right group-hover:text-white transition-colors">170</span>
+                                <span class="w-8 text-right group-hover:text-white transition-colors">250</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center justify-between group">
+                            <span class="text-lg font-serif text-gray-200 group-hover:text-[#c68e17] transition-colors">Cappuccino</span>
+                            <div class="flex gap-8 text-sm text-gray-400 font-light">
+                                <span class="w-8 text-right group-hover:text-white transition-colors">250</span>
+                                <span class="w-8 text-right group-hover:text-white transition-colors">300</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center justify-between group">
+                            <span class="text-lg font-serif text-gray-200 group-hover:text-[#c68e17] transition-colors">Latte</span>
+                            <div class="flex gap-8 text-sm text-gray-400 font-light">
+                                <span class="w-8 text-right group-hover:text-white transition-colors">250</span>
+                                <span class="w-8 text-right group-hover:text-white transition-colors">300</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center justify-between group">
+                            <span class="text-lg font-serif text-gray-200 group-hover:text-[#c68e17] transition-colors">Mocha</span>
+                            <div class="flex gap-8 text-sm text-gray-400 font-light">
+                                <span class="w-8 text-right group-hover:text-white transition-colors">250</span>
+                                <span class="w-8 text-right group-hover:text-white transition-colors">300</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Hot Beverages -->
+                <div class="gs-reveal border-t lg:border-t-0 lg:border-l border-white/5 pt-8 lg:pt-0 lg:pl-16">
+                    <ul class="space-y-5">
+                        <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">A Glass of Milk</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#c68e17]">KES 200</span></li>
+                        <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">A Cup of Milo</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#c68e17]">KES 300</span></li>
+                        <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">A Cup of Chocolate</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#c68e17]">KES 250</span></li>
+                        <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Ginger Masala Tea</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#c68e17]">KES 250</span></li>
+                        <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Tea/Coffee Pot</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#c68e17]">KES 200</span></li>
+                        <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Black Coffee/Tea</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#c68e17]">KES 200</span></li>
+                        <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Lemon Hot Water</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#c68e17]">KES 100</span></li>
+                        <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Concoction</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#c68e17]">KES 300</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 & 6. COMBINED: REFRESHMENTS & STARTERS -->
+    <section class="py-32 px-6 md:px-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 relative">
+        <div class="absolute top-1/2 left-0 w-96 h-96 bg-[#228b22]/5 rounded-full blur-[150px] pointer-events-none"></div>
+        
+        <!-- Milkshakes -->
+        <div class="gs-reveal relative">
+            <h2 class="font-serif text-3xl md:text-4xl tracking-tight font-medium mb-10 text-white">Cold Refreshments</h2>
+            <div class="glass-panel p-8 rounded-3xl">
+                <ul class="space-y-4">
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Strawberry/Choc/Vanilla Milkshake</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 350</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Oreo Milkshake</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 450</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Vanilla/Strawberry Yoghurt</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 200</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Fresh Juice</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 150</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Smoothie</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 300</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Soda</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">KES 100</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Water 500ml / 1L</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#d4af37]">100 / 200</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Starters -->
+        <div id="starters" class="gs-reveal relative">
+            <h2 class="font-serif text-3xl md:text-4xl tracking-tight font-medium mb-10 text-white text-right">Starters &amp; Soups</h2>
+            <div class="glass-panel p-8 rounded-3xl bg-gradient-to-br from-white/5 to-transparent">
+                <ul class="space-y-4">
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Beef / Chicken Samosa</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 200</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Chicken Spring Roll</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 200</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Choma Sausage</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 500</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Meatballs</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 600</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Chicken Wings</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 600</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Fish Fingers</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 400</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Creamy Chicken Mushroom Soup</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 500</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Beef Minestrone Soup</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 400</span></li>
+                    <li class="flex justify-between items-end group menu-item-hover"><span class="text-sm text-gray-300 font-light group-hover:text-white transition">Chef's Soup</span><div class="flex-grow border-b border-white/5 mx-4 mb-1 price-dots transition"></div><span class="text-xs text-[#cc5500]">KES 450</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. BURGERS HORIZONTAL SLIDER -->
+    <section id="burgers" class="py-24 overflow-hidden relative bg-[#0a0a0a]">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 mb-12 gs-reveal">
+            <h2 class="font-serif text-4xl md:text-5xl tracking-tight text-white font-medium">Handcrafted Burgers &amp; Sandwiches</h2>
+            <p class="text-sm text-gray-400 mt-2 font-light">Swipe to explore our bold flavors.</p>
+        </div>
+        
+        <div class="flex gap-6 overflow-x-auto snap-x snap-mandatory horizontal-scroll-container px-6 md:px-12 pb-12 w-full gs-reveal">
+            
+            <!-- Burger Card -->
+            <div class="snap-center shrink-0 w-[80vw] md:w-[400px] glass-panel rounded-3xl overflow-hidden group">
+                <div class="h-48 bg-gray-900 overflow-hidden relative">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&amp;w=800')] bg-cover bg-center group-hover:scale-110 transition-transform duration-700"></div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-serif text-xl text-white">Classic Beef Burger</h3>
+                        <span class="text-sm text-[#d4af37]">KES 850</span>
+                    </div>
+                    <p class="text-xs text-gray-400 font-light mb-6">Premium beef patty, fresh lettuce, tomatoes, house sauce.</p>
+                    <a href="#reservation" class="text-xs uppercase tracking-widest text-white hover:text-[#d4af37] transition-colors border-b border-white/20 pb-1">Order Now</a>
+                </div>
+            </div>
+
+            <!-- Other items as text list in a card to save space but keep design -->
+            <div class="snap-center shrink-0 w-[80vw] md:w-[400px] glass-panel rounded-3xl p-8 flex flex-col justify-center">
+                <ul class="space-y-6 w-full">
+                    <li class="flex justify-between items-center"><span class="text-base text-gray-200">Ham &amp; Cheese Burger</span><span class="text-sm text-[#d4af37]">KES 500</span></li>
+                    <li class="flex justify-between items-center"><span class="text-base text-gray-200">Double Cheese Burger</span><span class="text-sm text-[#d4af37]">KES 600</span></li>
+                    <li class="flex justify-between items-center"><span class="text-base text-gray-200">Chicken Cheese Burger</span><span class="text-sm text-[#d4af37]">KES 600</span></li>
+                </ul>
+            </div>
+
+            <div class="snap-center shrink-0 w-[80vw] md:w-[400px] glass-panel rounded-3xl p-8 flex flex-col justify-center bg-gradient-to-br from-[#d4af37]/5 to-transparent">
+                <h3 class="font-serif text-xl text-white mb-6 border-b border-white/10 pb-4">Sandwiches</h3>
+                <ul class="space-y-5 w-full">
+                    <li class="flex justify-between items-center"><span class="text-sm text-gray-300">Ham &amp; Cheese</span><span class="text-xs text-[#d4af37]">KES 350</span></li>
+                    <li class="flex justify-between items-center"><span class="text-sm text-gray-300">Vegetable</span><span class="text-xs text-[#d4af37]">KES 300</span></li>
+                    <li class="flex justify-between items-center"><span class="text-sm text-gray-300">Beef</span><span class="text-xs text-[#d4af37]">KES 400</span></li>
+                    <li class="flex justify-between items-center"><span class="text-sm text-gray-300">Chicken Cheese</span><span class="text-xs text-[#d4af37]">KES 500</span></li>
+                </ul>
+            </div>
+            
+            <!-- Spacer for end -->
+            <div class="snap-center shrink-0 w-6 md:w-12"></div>
+        </div>
+    </section>
+
+    <!-- 8 & 9. MAINS, SIDES & DESSERTS -->
+    <section id="pasta" class="py-32 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="text-center mb-20 gs-reveal">
+            <h2 class="font-serif text-4xl md:text-5xl tracking-tight text-white font-medium">Plates &amp; Companions</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <!-- Pasta & Salads -->
+            <div class="col-span-1 md:col-span-2 space-y-12 gs-reveal">
+                <div>
+                    <h3 class="text-xl font-serif text-[#d4af37] mb-6 flex items-center gap-4">
+                        <span>Salads</span>
+                        <div class="h-[1px] flex-grow bg-white/10"></div>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="glass-panel p-6 rounded-2xl group hover:bg-white/5 transition"><h4 class="text-lg text-white mb-1 group-hover:text-[#d4af37] transition">Chicken Caesar Salad</h4><span class="text-sm text-gray-400">KES 550</span></div>
+                        <div class="glass-panel p-6 rounded-2xl group hover:bg-white/5 transition"><h4 class="text-lg text-white mb-1 group-hover:text-[#d4af37] transition">Garden Salad</h4><span class="text-sm text-gray-400">KES 400</span></div>
+                        <div class="glass-panel p-6 rounded-2xl group hover:bg-white/5 transition"><h4 class="text-lg text-white mb-1 group-hover:text-[#d4af37] transition">Chef's Salad</h4><span class="text-sm text-gray-400">KES 450</span></div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-serif text-[#d4af37] mb-6 flex items-center gap-4">
+                        <span>Pasta</span>
+                        <div class="h-[1px] flex-grow bg-white/10"></div>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="glass-panel p-6 rounded-2xl group hover:bg-white/5 transition"><h4 class="text-base text-white mb-1 group-hover:text-[#d4af37] transition">Spaghetti Bolognese</h4><span class="text-xs text-gray-400">KES 800</span></div>
+                        <div class="glass-panel p-6 rounded-2xl group hover:bg-white/5 transition"><h4 class="text-base text-white mb-1 group-hover:text-[#d4af37] transition">Chicken Carbonara</h4><span class="text-xs text-gray-400">KES 1150</span></div>
+                        <div class="glass-panel p-6 rounded-2xl group hover:bg-white/5 transition"><h4 class="text-base text-white mb-1 group-hover:text-[#d4af37] transition">Alfredo</h4><span class="text-xs text-gray-400">KES 700</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sides & Desserts -->
+            <div class="col-span-1 glass-panel p-8 rounded-3xl relative overflow-hidden gs-reveal">
+                <div class="absolute inset-0 bg-[#0a0a0a]/50"></div>
+                <div class="relative z-10">
+                    <h3 class="text-lg font-serif text-white mb-6 uppercase tracking-widest border-b border-white/10 pb-4">Sides</h3>
+                    <ul class="space-y-3 mb-10">
+                        <li class="flex justify-between items-center text-sm font-light text-gray-300"><span>Ugali / Chapati / Plain Rice / Spinach / Cabbage</span><span class="text-[#d4af37]">KES 100</span></li>
+                        <li class="flex justify-between items-center text-sm font-light text-gray-300"><span>Lyonnaise / Roast / Mashed / Chips / Veg Rice / Greens</span><span class="text-[#d4af37]">KES 200</span></li>
+                        <li class="flex justify-between items-center text-sm font-light text-gray-300"><span>Spicy Chips</span><span class="text-[#d4af37]">KES 200</span></li>
+                        <li class="flex justify-between items-center text-sm font-light text-gray-300"><span>Masala Chips / Mukimo</span><span class="text-[#d4af37]">KES 250</span></li>
+                    </ul>
+
+                    <h3 class="text-lg font-serif text-white mb-6 uppercase tracking-widest border-b border-white/10 pb-4">Dessert</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-base text-white font-medium">3 Scoops Ice Cream</span>
+                        <span class="text-sm text-[#d4af37]">KES 400</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. GALLERY EXPERIENCE SECTION -->
+    <section id="gallery" class="py-24 bg-[#050505]">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <h2 class="font-serif text-3xl md:text-4xl text-center text-white mb-16 tracking-tight font-medium gs-reveal">The Sunstar Experience</h2>
+            
+            <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+                <!-- Gallery Item 1 -->
+                <div class="relative overflow-hidden rounded-2xl group break-inside-avoid gs-reveal">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&amp;w=800" alt="Restaurant Interior" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="text-white font-serif tracking-widest text-sm uppercase">Atmosphere</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 2 -->
+                <div class="relative overflow-hidden rounded-2xl group break-inside-avoid gs-reveal">
+                    <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&amp;w=800" alt="Plated Food" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <!-- Gallery Item 3 -->
+                <div class="relative overflow-hidden rounded-2xl group break-inside-avoid gs-reveal">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg" alt="Coffee Pour" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <!-- Gallery Item 4 -->
+                <div class="relative overflow-hidden rounded-2xl group break-inside-avoid gs-reveal">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&amp;w=800" alt="Outdoor Seating" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <!-- Gallery Item 5 -->
+                <div class="relative overflow-hidden rounded-2xl group break-inside-avoid gs-reveal">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/4734259a-bad7-422f-981e-ce01e79184f2_1600w.jpg" alt="Gourmet Dish" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. RESERVATION & ORDER SECTION -->
+    <section id="reservation" class="py-32 relative flex items-center justify-center overflow-hidden min-h-screen">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&amp;w=2000')] bg-cover bg-center opacity-20"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-[#0a0a0a]"></div>
+        
+        <div class="relative z-10 w-full max-w-4xl mx-auto px-6">
+            <div class="text-center mb-12 gs-reveal">
+                <h2 class="font-serif text-5xl md:text-6xl text-white tracking-tight mb-4 font-medium">Reserve Your Experience</h2>
+                <p class="text-gray-400 text-sm font-light">Reserve a table, place an order, or speak with our team directly.</p>
+            </div>
+
+            <form id="reservationForm" class="glass-panel p-8 md:p-12 rounded-[2rem] shadow-[0_0_50px_rgba(212,175,55,0.05)] gs-reveal relative overflow-hidden">
+                <div class="absolute -top-40 -right-40 w-80 h-80 bg-[#d4af37]/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 relative z-10">
+                    <!-- Personal Info -->
+                    <div class="space-y-6">
+                        <div>
+                            <input type="text" id="resName" placeholder="Full Name" required="" class="w-full py-3 text-sm font-light placeholder-gray-500">
+                        </div>
+                        <div>
+                            <input type="tel" id="resPhone" placeholder="Phone Number" required="" class="w-full py-3 text-sm font-light placeholder-gray-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="date" id="resDate" required="" class="w-full py-3 text-sm font-light text-gray-400">
+                            <input type="time" id="resTime" required="" class="w-full py-3 text-sm font-light text-gray-400">
+                        </div>
+                        <div>
+                            <select id="resGuests" class="w-full py-3 text-sm font-light text-gray-400">
+                                <option value="" disabled="" selected="">Number of Guests</option>
+                                <option value="1">1 Person</option>
+                                <option value="2">2 People</option>
+                                <option value="3">3 People</option>
+                                <option value="4">4 People</option>
+                                <option value="5+">5+ People</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Order Info -->
+                    <div class="space-y-6">
+                        <div>
+                            <select id="resType" class="w-full py-3 text-sm font-light text-gray-400">
+                                <option value="Dine In" selected="">Dine In</option>
+                                <option value="Takeaway">Takeaway</option>
+                                <option value="Delivery">Delivery</option>
+                            </select>
+                        </div>
+                        <div>
+                            <textarea id="resItems" rows="2" placeholder="Selected Items (Optional)" class="w-full py-3 text-sm font-light placeholder-gray-500 resize-none"></textarea>
+                        </div>
+                        <div>
+                            <textarea id="resNotes" rows="2" placeholder="Additional Notes or Delivery Location" class="w-full py-3 text-sm font-light placeholder-gray-500 resize-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10 relative z-10">
+                    <button type="submit" class="px-8 py-4 bg-[#25D366] text-white rounded-full flex items-center justify-center gap-3 hover:bg-[#128C7E] transition-colors group">
+                        <iconify-icon icon="solar:letter-linear" class="text-xl group-hover:scale-110 transition-transform"></iconify-icon>
+                        <span class="text-sm font-medium tracking-wide uppercase">Order via WhatsApp</span>
+                    </button>
+                    <a href="tel:+254795853804" class="px-8 py-4 border border-white/20 text-white rounded-full flex items-center justify-center gap-3 hover:bg-white/10 transition-colors">
+                        <iconify-icon icon="solar:phone-calling-linear" class="text-xl"></iconify-icon>
+                        <span class="text-sm font-medium tracking-wide uppercase">Call Restaurant</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- 12. FOOTER -->
+    <footer class="bg-[#050505] pt-20 pb-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-1 md:col-span-1">
+                <span class="font-serif text-2xl tracking-widest uppercase text-[#d4af37] font-medium block mb-4">Sunstar</span>
+                <p class="text-xs text-gray-500 font-light max-w-xs leading-relaxed mb-6">Premium dining, handcrafted coffee, and unforgettable flavors orchestrated in a cinematic atmosphere.</p>
+                <div class="flex gap-4 text-xl text-gray-400">
+                    <a href="#" class="hover:text-[#d4af37] transition"><iconify-icon icon="solar:map-point-linear"></iconify-icon></a>
+                    <a href="#" class="hover:text-[#d4af37] transition"><iconify-icon icon="solar:camera-linear"></iconify-icon></a>
+                    <a href="#" class="hover:text-[#d4af37] transition"><iconify-icon icon="solar:letter-linear"></iconify-icon></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-serif text-lg mb-6">Contact</h4>
+                <ul class="text-xs text-gray-400 font-light space-y-3">
+                    <li class="flex items-center gap-2"><iconify-icon icon="solar:phone-linear" class="text-[#d4af37]"></iconify-icon> +254 795 853 804</li>
+                    <li class="flex items-center gap-2"><iconify-icon icon="solar:letter-linear" class="text-[#d4af37]"></iconify-icon> info@sunstar.com</li>
+                    <li class="flex items-center gap-2"><iconify-icon icon="solar:map-point-linear" class="text-[#d4af37]"></iconify-icon> Nairobi, Kenya</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-serif text-lg mb-6">Hours</h4>
+                <ul class="text-xs text-gray-400 font-light space-y-3">
+                    <li class="flex justify-between border-b border-white/5 pb-1"><span>Mon - Fri</span><span>7:00 AM - 10:00 PM</span></li>
+                    <li class="flex justify-between border-b border-white/5 pb-1"><span>Saturday</span><span>8:00 AM - 11:00 PM</span></li>
+                    <li class="flex justify-between border-b border-white/5 pb-1"><span>Sunday</span><span>8:00 AM - 9:00 PM</span></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="w-full h-32 bg-gray-900 rounded-xl overflow-hidden relative glass-panel flex items-center justify-center">
+                    <span class="text-xs text-gray-600 uppercase tracking-widest">Map Embed Area</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 md:px-12 text-center border-t border-white/5 pt-8">
+            <p class="text-[10px] text-gray-600 uppercase tracking-widest">© 2023 Sunstar Restaurant. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lenis Smooth Scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: true,
+            touchMultiplier: 1.5,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Update GSAP ScrollTrigger with Lenis
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Hero Animations
+        const tl = gsap.timeline();
+        tl.to(".hero-elem", {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "power3.out",
+            delay: 0.2
+        });
+
+        // Parallax Hero BG
+        gsap.to("#hero-bg", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Section Reveal Animations
+        const revealElements = document.querySelectorAll('.gs-reveal');
+        revealElements.forEach((elem) => {
+            gsap.fromTo(elem, 
+                { y: 50, opacity: 0 },
+                { 
+                    y: 0, 
+                    opacity: 1, 
+                    duration: 1, 
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Navbar blur effect on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-[#0a0a0a]/80', 'backdrop-blur-xl', 'border-b', 'border-white/10');
+            } else {
+                navbar.classList.remove('bg-[#0a0a0a]/80', 'backdrop-blur-xl', 'border-b', 'border-white/10');
+            }
+        });
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('translate-x-full');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // WhatsApp Form Logic
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('resName').value || 'Guest';
+            const phone = document.getElementById('resPhone').value || 'N/A';
+            const date = document.getElementById('resDate').value || 'N/A';
+            const time = document.getElementById('resTime').value || 'N/A';
+            const guests = document.getElementById('resGuests').value || 'N/A';
+            const type = document.getElementById('resType').value;
+            const items = document.getElementById('resItems').value || 'None';
+            const notes = document.getElementById('resNotes').value || 'None';
+
+            const message = `Hello, I would like to make a reservation/order.
+
+*Name:* ${name}
+*Phone:* ${phone}
+*Guests:* ${guests}
+*Date:* ${date}
+*Time:* ${time}
+*Order Type:* ${type}
+
+*Order Details:*
+${items}
+
+*Additional Notes/Location:*
+${notes}`;
+
+            // Format number (Remove spaces, +, etc. Ensure it's international format)
+            // Using dummy number as per constraints, normally this would be the dynamic restaurant number
+            const whatsappNumber = '254795853804'; 
+            const encodedMessage = encodeURIComponent(message);
+            
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+        });
+    </script>
+
+</body></html>
